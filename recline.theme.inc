@@ -180,6 +180,9 @@ function theme_recline_default_formatter($vars) {
       break;
 
     case 'html':
+      if (is_youtube($url)){
+        $url = convertYoutube($url);
+      }
       $output['preview'] = recline_format_link_api($url);
       break;
 
@@ -726,4 +729,17 @@ function parse_external_url($url = '', $internal_class = 'internal-link', $exter
 
 function is_html($string) {
   return preg_match("/<[^<]+>/", $string, $m) != 0;
+}
+
+function convertYoutube($string) {
+  return preg_replace(
+    "/\s*[a-zA-Z\/\/:\.]*youtu(be.com\/watch\?v=|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i",
+    "https://www.youtube.com/embed/$2",
+    $string
+  );
+}
+
+function is_youtube($url) {
+  $youtube_pattern = '/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/';
+  return preg_match($youtube_pattern, $url, $matches);
 }
