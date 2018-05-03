@@ -351,6 +351,10 @@ function recline_preview_json($url) {
   $response = drupal_http_request($url, array('timeout' => RECLINE_REQUEST_TIMEOUT_GET));
   if ($response->code == '200') {
     $data = $response->data;
+    if (is_html($data)) {
+      $output['preview'] = recline_format_link_api($url);
+      return drupal_render($output);
+    }
   }
   else {
     return recline_preview_unavailable();
@@ -715,4 +719,8 @@ function parse_external_url($url = '', $internal_class = 'internal-link', $exter
     'url' => $url,
   ];
   return $output;
+}
+
+function is_html($string) {
+  return preg_match("/<[^<]+>/", $string, $m) != 0;
 }
