@@ -188,6 +188,9 @@ function theme_recline_default_formatter($vars) {
     case 'jpg':
       $output['preview'] = recline_format_image($url);
       break;
+    case 'jpeg':
+      $output['preview'] = recline_format_image($url);
+      break;
 
     case 'arcgis':
       $output['preview'] = recline_preview_arcgis_feature($url);
