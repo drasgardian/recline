@@ -704,13 +704,12 @@ function parse_external_url($url = '', $internal_class = 'internal-link', $exter
     return FALSE;
   }
   $link_url = parse_url($url);
-  $home_url = parse_url($_SERVER['HTTP_HOST']);
   if (empty($link_url['host'])) {
     $target = '_self';
     $class = $internal_class;
 
   }
-  elseif ($link_url['host'] == $home_url['host']) {
+  elseif ($link_url['host'] == $_SERVER['HTTP_HOST']) {
     $target = '_self';
     $class = $internal_class;
 
